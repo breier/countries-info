@@ -1,0 +1,154 @@
+/**
+ * Main CSS rules, keeping it simple
+**/
+body {
+    margin: 0;
+    padding: 0;
+    color: #555;
+    font-size: 16px;
+    font-family: Sans;
+}
+img {
+    vertical-align: middle;
+}
+.row { /* Fix Bootstrap going out of the page */
+    margin: 0 !important;
+}
+.ellipsize { /* Adds ellipsis on trunked texts for better visualization */
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/**
+ * Top bar classes, with a fixed style that resembles the one at BLEXR's
+**/
+#nav {
+    width: 100%;
+    z-index: 100;
+    position: fixed;
+    padding: 0 10px;
+    line-height: 60px;
+    background-color: white;
+    box-shadow: 0 -10px 20px 5px grey;
+}
+#nav .menu {
+    display: inline-block;
+    float: right;
+}
+#nav .menu a {
+    color: grey;
+    margin-left: 10px;
+    padding: 18px 10px;
+    transition: all 0.5s;
+    text-decoration: none;
+    border-top: solid 3px lightgrey;
+}
+#nav .menu a:hover {
+    border-top-color: orange;
+    color: #555;
+}
+#nav .menu a.active {
+    border-top-color: orange;
+}
+/**
+ * After many different approaches I opted by hiding the whole page-content
+ *  so the API request would need to be fired only once and the Charts would
+ * still render even when not visible.
+**/
+#countries, #details {
+    position: absolute;
+    top: 80px;
+    width: 100%;
+    visibility: hidden;
+}
+#countries.active, #details.active {
+    visibility: visible;
+}
+
+/**
+ * Vue Tables minor adjustments
+**/
+.VueTables__search-field label { /* Align "filter" text to the left */
+    display: block;
+}
+.VuePagination > nav { /* Align the pagination buttons to the center */
+    margin: 0 auto;
+}
+table th.VueTables__sortable {
+    cursor: pointer;
+}
+table tr th:not(:first-of-type), table tr td:not(:first-of-type) { /* set limits to all columns, but flag's */
+    min-width: 150px;
+    max-width: 250px;
+}
+table tr th:nth-of-type(2), table tr th:nth-of-type(3), table tr td:nth-of-type(2), table tr td:nth-of-type(3) {
+    min-width: 120px;
+}
+table tr.vue-rows {
+    cursor: pointer;
+}
+table td { /* Keep all rows at the same size */
+    line-height: 35px;
+}
+tbody td .ellipsize {
+    max-width: 150px;
+}
+@media (max-width: 510px) { /* Adjust for mobile phone screens */
+    tbody td:nth-of-type(2) .ellipsize {
+        max-width: 100px;
+    }
+}
+@media (min-width: 511px) and (max-width: 960px) {
+    tbody td:nth-of-type(2) .ellipsize {
+        max-width: 120px;
+    }
+}
+@media (min-width: 961px) {
+    tbody td .ellipsize {
+        max-width: 250px;
+    }
+}
+/**
+ * Set modal table properties
+**/
+.modal-header button.close {
+	padding: 12px !important;
+}
+.modal-body { /* Adjust for mobile phone screens */
+    overflow-x: auto;
+}
+.modal-body table tr:first-of-type td {
+    border-top: none;
+}
+.modal-body table td {
+    padding: 0 5px;
+}
+.modal-body table td:last-of-type { /* Lower line-height to improve multilines and bigger padding to compensate */
+    padding: 7px 5px;
+    line-height: 21px;
+}
+.modal-body table li { /* For list components outside ULs */
+    list-style-position: inside;
+}
+.modal-body table td > span:not(:last-of-type)::after { /* Separator on Exploded Arrays */
+    content: ", ";
+}
+
+/**
+ * Setting simple frames for the charts
+**/
+div.doughnut, div.bar {
+    float: left;
+    background-color: #F8F8F8;
+    box-shadow: 0 0 10px 2px lightgrey;
+    border-radius: 8px;
+    max-width: 400px;
+    margin: 10px;
+}
+div.doughnut h3, div.bar {
+    padding: 5px;
+    font-size: 22px;
+    text-align: center;
+    text-shadow: 1px 1px 1px lightgrey;
+}

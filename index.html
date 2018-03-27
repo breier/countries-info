@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Title and page icon /-->
+		<title>Countries Information</title>
+		<link href="./lib/images/favicon.ico" rel="shortcut icon">
+		<!-- Main CSS and JS files /-->
+		<link href="./lib/css/bootstrap.min.css" rel="stylesheet">
+		<link href="./lib/fonts/font-awesome.min.css" rel="stylesheet">
+		<link href="./lib/css/app.css" rel="stylesheet">
+		<!-- Simple Vue Main Lib + Tables Plugin -->
+    <script src="./lib/js/vue.min.js"></script>
+		<script src="./lib/js/vue-tables-2.min.js"></script>
+		<!-- jQuery for Modals of Bootstrap, and ChartJS for... Charts -->
+		<script src="./lib/js/jquery.min.js"></script>
+		<script src="./lib/js/bootstrap.min.js"></script>
+		<script src="./lib/js/Chart.bundle.min.js"></script>
+		<!-- Default meta tags /-->
+		<meta name="generator" content="Atom 1.23.3" >
+		<meta name="author" content="breier" >
+		<meta name="date" content="2018-03-26T17:00:01-0300" >
+		<meta name="copyright" content="GPL">
+		<meta name="keywords" content="countries,information,country,info">
+		<meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+	</head>
+	<body>
+<!-- Nav Bar with Blexr Logo and a simple menu -->
+		<div id="nav">
+			<a href="javascript:void(0);" @click="location.reload()">
+				<img src="./lib/images/blexr.svg" alt="BLEXR" width="100">
+			</a>
+			<div class="menu">
+				<a v-for="item in topMenu" :href="item.path" :class="{ active: item.isActive }">
+					<i :class="'fa fa-'+ item.icon"></i> {{ item.name }}
+				</a>
+			</div>
+			<script src="./lib/js/app.js"></script>
+		</div>
+<!-- List of Countries using VueTables2 -->
+		<div id="countries" :class="{ active: app.topMenu.countries.isActive }">
+			<v-client-table :data="countriesList" :columns="columns" :options="options">
+				<img slot="flag" slot-scope="props" :src="props.row.flag" alt="FLAG" height="35">
+				<div slot="name" slot-scope="props" class="ellipsize" :title="props.row.name">{{ props.row.name }}</div>
+			</v-client-table>
+		<!-- Full Content Bootstrap Modal -->
+			<div id="full-content-modal" class="modal fade" role="dialog">
+				<div class='modal-dialog modal-lg'>
+					<div class='modal-content'>
+						<div class='modal-header'>
+							<strong style="padding-right: 20px;">Full Country Content</strong>
+							<button class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<div class="modal-body">
+							<table class="table">
+								<!-- Making use of components/templates -->
+								<tr v-for="grid in countryInfoGrid">
+									<td class="font-weight-bold text-right">{{ grid.name }}:</td>
+									<td v-if="typeof grid.value == 'object'">
+										<component v-bind:is="grid.template" v-for="item in grid.value" :data="item"></component>
+									</td>
+									<td v-else>
+										<component v-bind:is="grid.template" :data="grid.value"></component>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script src="./lib/js/countries.js"></script>
+		</div>
+<!-- Details "Page" / Dashboard with charts and other info -->
+		<div id="details" :class="{ active: app.topMenu.details.isActive }">
+			<h4 class="text-center">What is the most worth it language to learn?</h4>
+			<p class="text-center">Based on the average population of speakers, the language is: <b>{{ mostWorthLanguage }}</b></p>
+			<div class="clearfix"></div>
+
+			<div class="col-lg-4 col-md-6 col-sm-9 col-xs-12 doughnut" v-for="chart in doughnutCharts">
+				<h3>{{ chart.title }}</h3>
+				<canvas :id="chart.id" height="250"></canvas>
+			</div>
+			<div class="col-lg-4 col-md-6 col-sm-9 col-xs-12 bar">
+				<h3>{{ barChart[0].title }}</h3>
+				<canvas :id="barChart[0].id" height="217"></canvas>
+			</div>
+			<script src="./lib/js/details.js"></script>
+		</div>
+<!-- That's it folks, no time to document it all... -->
+	</body>
+</html>
